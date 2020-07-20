@@ -10,12 +10,21 @@ import (
 	"sort"
 	"strings"
 	"testing"
+	"time"
 )
 
 func TestTmpMain(t *testing.T) {
+	currentTime := time.Now()
+	now := time.Now()
+       dates:=	currentTime.Format("060102")
+       times:= currentTime.Format("1504")
+       ago := now.Add(time.Duration(-1) * time.Minute).Format("1504")
+       fmt.Println(dates)
+       fmt.Println(times)
+       fmt.Println(ago)
 	allSheetSlice := make([]string, 0, 32)
 	allSheetMap := make(map[string]SeriesLine)
-           name := "/home/ec2-user/test/goproj/nmon_files/ip-172-31-10-38_200717_0733.nmon"
+        name := "/home/ec2-user/test/goproj/nmon_files/*"+"_"+dates+"_"+ago+".nmon.nmon"
 	//name := "/Users/hero/Documents/temp/2020-01/to_guigui/LINUX_single_2563_144_50_10u10m.nmon"
 	// name = "/Users/hero/Documents/temp/2020-01/to_guigui/AIX_single_2563_19_50_10u10m.nmon"
 	// name = "/Users/hero/Documents/Pactera/CEC-Performance-Testing/2019-12/GoldenDB_2019-12-27/transaction3_1000w/Mixed_Node1/201912261503_Mixed_ip71_10.10.22.87.nmon"
@@ -107,7 +116,7 @@ func TestTmpMain(t *testing.T) {
 
 func TestParseNmon(t *testing.T) {
 	
-	name := "/home/ec2-user/test/goproj/nmon_files/ip-172-31-10-38_200717_0733.nmon"
+	name := "/home/ec2-user/test/goproj/nmon_files/*"+"_"+dates+"_"+ago+".nmon.nmon"
 	//name := "/Users/hero/Documents/temp/2020-01/to_guigui/LINUX_single_2563_144_50_10u10m.nmon"
 	// name = "/Users/hero/Documents/temp/2020-01/to_guigui/AIX_single_2563_19_50_10u10m.nmon"
 	// name = "/Users/hero/Documents/Pactera/CEC-Performance-Testing/2019-12/GoldenDB_2019-12-27/transaction3_1000w/Mixed_Node1/201912261503_Mixed_ip71_10.10.22.87.nmon"
