@@ -22,9 +22,12 @@ func TestTmpMain(t *testing.T) {
        fmt.Println(dates)
        fmt.Println(times)
        fmt.Println(ago)
+	netip :=GetIPAddr()
+	ip :=strings.Replace(netip, ".", "-", 3)
+
 	allSheetSlice := make([]string, 0, 32)
 	allSheetMap := make(map[string]SeriesLine)
-        name := "/home/ec2-user/test/goproj/nmon_files/*"+"_"+dates+"_"+ago+".nmon.nmon"
+        name := "/home/ec2-user/test/goproj/nmon_files/ip-"+ip+"_"+dates+"_"+ago+".nmon"
 	//name := "/Users/hero/Documents/temp/2020-01/to_guigui/LINUX_single_2563_144_50_10u10m.nmon"
 	// name = "/Users/hero/Documents/temp/2020-01/to_guigui/AIX_single_2563_19_50_10u10m.nmon"
 	// name = "/Users/hero/Documents/Pactera/CEC-Performance-Testing/2019-12/GoldenDB_2019-12-27/transaction3_1000w/Mixed_Node1/201912261503_Mixed_ip71_10.10.22.87.nmon"
@@ -116,7 +119,7 @@ func TestTmpMain(t *testing.T) {
 
 func TestParseNmon(t *testing.T) {
 	
-	name := "/home/ec2-user/test/goproj/nmon_files/*"+"_"+dates+"_"+ago+".nmon.nmon"
+	name := "/home/ec2-user/test/goproj/nmon_files/ip-"+ip+"_"+dates+"_"+ago+".nmon"
 	//name := "/Users/hero/Documents/temp/2020-01/to_guigui/LINUX_single_2563_144_50_10u10m.nmon"
 	// name = "/Users/hero/Documents/temp/2020-01/to_guigui/AIX_single_2563_19_50_10u10m.nmon"
 	// name = "/Users/hero/Documents/Pactera/CEC-Performance-Testing/2019-12/GoldenDB_2019-12-27/transaction3_1000w/Mixed_Node1/201912261503_Mixed_ip71_10.10.22.87.nmon"
@@ -137,3 +140,19 @@ func TestParseNmon(t *testing.T) {
 	fmt.Println(sl.Len())
 	// fmt.Println(http.ParseTime("08:47:01 08-JAN-2020"))
 }
+func GetIPAddr() string {
+	addrs, err := net.InterfaceAddrs()
+	if err != nil {
+		return ""
+	}
+	for _, address := range addrs {
+		// check the address type and if it is not a loopback the display it
+		if ipnet, ok := address.(*net.IPNet); ok && !ipnet.IP.IsLoopback() {
+			if ipnet.IP.To4() != nil {
+				return ipnet.IP.String()
+			}
+		}
+	}
+	return ""
+}
+
